@@ -18,23 +18,32 @@ function App() {
       <h1>Yu-Gi-Oh Card Search</h1>
       
       <div>
-        <label>Card Name</label>
-        <br/>
-        <input 
-         type="text" 
-         id="card-name"
-         name="card-name"
-         onChange={e => setCardName(e.target.value)}
-         onKeyPress={e => {
+        <TextField 
+          id="outline-basic" 
+          label="Enter a Yugioh Card Name"
+          variant="outlined"
+          className="text"
+          value={cardName}
+          placeholder="Search..."
+          size="small"
+          onChange={(prop) => {
+            setCardName(prop.target.value);
+          }}
+          onKeyPress={e => {
             if (e.key === 'Enter') {
               search();
             }
-         }}/>
-         <br/>
-        <button onClick={search}>Search</button>
-      </div>
+          }}/>
 
-      <p>You have entered {cardName}</p>
+          <IconButton
+            aria-label="search"
+            onClick={() => {
+              search();
+            }}
+          >
+            <SearchIcon style={{fill: "black"}} />
+          </IconButton>
+      </div>
       
       {/** if the card is not found, notify the user */}
       {cardInfo === undefined ? (
@@ -42,7 +51,7 @@ function App() {
       ) : (
       /** else display the card image to the user */
         <div id="card-result">
-          <img src={cardInfo[0].card_images[0].image_url_small} alt="" />
+          <img src={cardInfo[0].card_images[0].image_url} alt="" />
           <p>Price on TCGPlayer: ${cardInfo[0].card_prices[0].tcgplayer_price}</p>
           <p>Price on eBay: ${cardInfo[0].card_prices[0].ebay_price}</p>
           <p>Price on Amazon: ${cardInfo[0].card_prices[0].amazon_price}</p>
@@ -54,9 +63,14 @@ function App() {
   function search() {
     axios.get(BASE_URL + `?name=${cardName}`).then((response) => {
       /** filter the response down to the relevant card data */
-      const cardData = response.data.data
-      console.log(cardData)
+      const cardData = response.data.data;
+      console.log(cardData);
       setCardInfo(cardData);
+    })
+    .catch((error) => {
+      console.log("Card not found");
+      alert("Card not found! Please ensure you spelled the name correctly.");
+      setCardInfo(undefined);
     });
   }
 }
