@@ -47,14 +47,30 @@ function App() {
       
       {/** if the card is not found, notify the user */}
       {cardInfo === undefined ? (
-        <p>Yu-Gi-Oh card not found</p>
+        <p></p>
       ) : (
       /** else display the card image to the user */
-        <div id="card-result">
+        <div id="card-result" className="card-result" 
+          style={{
+          maxWidth: "800px",
+          margin: "0 auto",
+          padding: "25px 100px 0px 100px",
+        }}>
           <img src={cardInfo[0].card_images[0].image_url} alt="" />
-          <p>Price on TCGPlayer: ${cardInfo[0].card_prices[0].tcgplayer_price}</p>
-          <p>Price on eBay: ${cardInfo[0].card_prices[0].ebay_price}</p>
-          <p>Price on Amazon: ${cardInfo[0].card_prices[0].amazon_price}</p>
+          <div className="card-prices">
+            <p>Price on TCGPlayer: ${cardInfo[0].card_prices[0].tcgplayer_price}
+            <br />
+              Price on eBay: ${cardInfo[0].card_prices[0].ebay_price}
+            <br />
+              Price on Amazon: ${cardInfo[0].card_prices[0].amazon_price}
+            </p>
+          </div>
+          <div className="card-description">
+            <p>Description: 
+            <br /> 
+              {cardInfo[0].desc}
+            </p>
+          </div>
         </div>
       )}
     </div>
