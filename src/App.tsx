@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { json } from 'node:stream/consumers';
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
 
 function App() {
   // create a state variable, "cardName", which will be altered with its corresponding state function, "setCardName"
@@ -40,7 +42,10 @@ function App() {
       ) : (
       /** else display the card image to the user */
         <div id="card-result">
-          <img src={cardInfo[0].card_images[0].image_url} alt="" />
+          <img src={cardInfo[0].card_images[0].image_url_small} alt="" />
+          <p>Price on TCGPlayer: ${cardInfo[0].card_prices[0].tcgplayer_price}</p>
+          <p>Price on eBay: ${cardInfo[0].card_prices[0].ebay_price}</p>
+          <p>Price on Amazon: ${cardInfo[0].card_prices[0].amazon_price}</p>
         </div>
       )}
     </div>
@@ -50,6 +55,7 @@ function App() {
     axios.get(BASE_URL + `?name=${cardName}`).then((response) => {
       /** filter the response down to the relevant card data */
       const cardData = response.data.data
+      console.log(cardData)
       setCardInfo(cardData);
     });
   }
