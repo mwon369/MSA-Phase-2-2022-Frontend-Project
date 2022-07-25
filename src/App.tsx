@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import { json } from 'node:stream/consumers';
 
 function App() {
   // create a state variable, "cardName", which will be altered with its corresponding state function, "setCardName"
   const[cardName, setCardName] = useState("");
-  const[cardInfo, setCardInfo] = useState(undefined);
+  const[cardInfo, setCardInfo] = useState<undefined | any>(undefined);
 
   // URL to make the API request
   const BASE_URL = "https://db.ygoprodeck.com/api/v7/cardinfo.php";
@@ -39,7 +40,7 @@ function App() {
       ) : (
       /** else display the card image to the user */
         <div id="card-result">
-          <img src="" alt="" />
+          <img src={cardInfo[0].card_images[0].image_url} alt="" />
         </div>
       )}
     </div>
@@ -47,8 +48,9 @@ function App() {
 
   function search() {
     axios.get(BASE_URL + `?name=${cardName}`).then((response) => {
-      console.log(response.data);
-      setCardInfo(response.data);
+      /** filter the response down to the relevant card data */
+      const cardData = response.data.data
+      setCardInfo(cardData);
     });
   }
 }
