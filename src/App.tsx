@@ -4,6 +4,7 @@ import './App.css';
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
+import { Box, Grid, Paper, Skeleton } from "@mui/material";
 
 function App() {
   // create a state variable, "cardName", which will be altered with its corresponding state function, "setCardName"
@@ -52,25 +53,68 @@ function App() {
       /** else display the card image to the user */
         <div id="card-result" className="card-result" 
           style={{
-          maxWidth: "800px",
+          maxWidth: "100%",
           margin: "0 auto",
-          padding: "25px 100px 0px 100px",
+          padding: "50px 75px 75px 75px",
         }}>
-          <img src={cardInfo[0].card_images[0].image_url} alt="" />
-          <div className="card-prices">
-            <p>Price on TCGPlayer: ${cardInfo[0].card_prices[0].tcgplayer_price}
-            <br />
-              Price on eBay: ${cardInfo[0].card_prices[0].ebay_price}
-            <br />
-              Price on Amazon: ${cardInfo[0].card_prices[0].amazon_price}
-            </p>
-          </div>
-          <div className="card-description">
-            <p>Description: 
-            <br /> 
-              {cardInfo[0].desc}
-            </p>
-          </div>
+          <Paper sx={{backgroundColor: "#FAF8F6"}}>
+            <Grid
+              container
+              direction="column"
+              spacing={2}
+              sx={{
+                justifyContent: "center",
+              }}
+            >
+              <Grid item>
+                <Box>
+                  {cardInfo === undefined ? (
+                    <h1>Card not found</h1>
+                  ) : (
+                    <div>
+                      <h1>
+                        {cardInfo[0].name.charAt(0).toUpperCase() + 
+                        cardInfo[0].name.slice(1)}
+                      </h1>
+                      <p>
+                        ID: {cardInfo[0].id}
+                        <br />
+                        Level: {cardInfo[0].level}
+                        <br />
+                        Race: {cardInfo[0].race}
+                        <br />
+                        Type: {cardInfo[0].type}
+                        <br />
+                        <br />
+                        Description: {cardInfo[0].desc}
+                        <br />
+                        <br />
+                        Price on eBay: ${cardInfo[0].card_prices[0].ebay_price}
+                        <br />
+                        Price on Amazon: ${cardInfo[0].card_prices[0].amazon_price}
+                        <br />
+                        Price on TCGPlayer: ${cardInfo[0].card_prices[0].tcgplayer_price}
+                      </p>
+                    </div>  
+                  )}
+                </Box>
+              </Grid>
+              <Grid item>
+                <Box>
+                  {cardInfo[0].card_images[0].image_url ? (
+                    <img
+                      height="540px"
+                      width="360px"
+                      alt={cardInfo[0].name}
+                      src={cardInfo[0].card_images[0].image_url}
+                    ></img>
+                  ) : (
+                    <Skeleton width={360} height={540}/>  
+                  )}
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
         </div>
       )}
     </div>
