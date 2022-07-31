@@ -1,3 +1,9 @@
+# Showcase of Web App:
+
+![Frontend SS](https://user-images.githubusercontent.com/100281768/182025434-9ff305e1-aedd-4502-b47d-8fbd97d36973.PNG)
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
